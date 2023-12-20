@@ -1,41 +1,45 @@
-import { useState } from 'react'    
+import { useState } from 'react' 
 
-const BinaryForm = () => {
+const DecimalForm = () => {
     const [number, setNumber] = useState("")
     const [errors, setErrors] = useState({})
     const [convertedNum, setConvertedNum] = useState()
 
-    const convertBinaryToDecimal = (num) => {
-        let decimal = 0;
-        let start = 1;
-        for (let i = num.length - 1; i >= 0; i--) {
-            if (num[i] === "1") {
-            decimal += start;
+    const convertDecimalToBinary = (num) => {
+        let binaryNum = "";
+        let numToReverse = "";
+        while (num >= 1) {
+            if (num % 2 != 0) {
+            numToReverse += "1";
+            } else {
+            numToReverse += "0";
             }
-            start *= 2;
+            num = parseInt(num / 2);
         }
-        return decimal;
+        for (let i = numToReverse.length - 1; i >= 0; i--) {
+            binaryNum += numToReverse[i];
+        }
+        return binaryNum;
     }
 
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log("Function executing", number)
-        if(/[^01]/.test(number)) {
+        if(/[^0-9]/.test(number)) {
             console.log("String contains letters, or nums other than 1's and 0's")
             setErrors({
-                message: "Input must be a number, and must be only 1's and 0's, please try again" 
+                message: "Input must be a whole number, please try again" 
             })
         }
         else {
-            let decimalNum = convertBinaryToDecimal(number)
-            setConvertedNum(decimalNum)
+            let binaryNum = convertDecimalToBinary(number)
+            setConvertedNum(binaryNum)
             setNumber("")
         }
     }
 
     return (
         <div>
-            <h2 className='mb-9 text-2xl'>Please enter a Binary Number below: </h2>
+            <h2 className='mb-9 text-2xl'>Please enter a Whole Number below: </h2>
             <form onSubmit={submitHandler}>
                 <div>
                     {errors.message ? <p className='text-red-600'>{errors.message}</p> : null}
@@ -47,11 +51,11 @@ const BinaryForm = () => {
             </form>
             <div className='bg-purple-500 rounded-lg my-11 w-60 h-12 mx-auto flex items-center justify-center'>
                 {
-                    convertedNum ? <p className='text-2xl text-center'>{convertedNum}</p> : <p className='text-xs'>Your output will appear here!</p>
+                    convertedNum ? <p className='text-xl text-center'>{convertedNum}</p> : <p className='text-xs'>Your output will appear here!</p>
                 }
             </div>
         </div>
     )
 }
 
-export default BinaryForm
+export default DecimalForm
