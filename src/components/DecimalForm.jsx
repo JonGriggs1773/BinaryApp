@@ -3,6 +3,7 @@ import { useState } from 'react'
 const DecimalForm = () => {
     const [number, setNumber] = useState("")
     const [errors, setErrors] = useState({})
+    const [isCopied, setIsCopied] = useState(false)
     const [convertedNum, setConvertedNum] = useState()
 
     const convertDecimalToBinary = (num) => {
@@ -20,6 +21,11 @@ const DecimalForm = () => {
             binaryNum += numToReverse[i];
         }
         return binaryNum;
+    }
+
+    //! Finish copy to clipboard functionality
+    const copyToClipboard = () => {
+
     }
 
     const submitHandler = (e) => {
@@ -49,11 +55,16 @@ const DecimalForm = () => {
                 </div>
                 <input type="submit" className='btn bg-purple-700 mt-3' value="Convert to Binary" />
             </form>
-            <div className='bg-purple-500 rounded-lg my-11 w-60 h-12 mx-auto flex items-center justify-center'>
+            <div className='bg-purple-500 rounded-lg my-11 w-60 mx-auto flex flex-col justify-center p-2'>
                 {
-                    convertedNum ? <p className='text-xl text-center'>{convertedNum}</p> : <p className='text-xs'>Your output will appear here!</p>
+                    convertedNum ? <p className='text-xl text-center px-3 break-words'>{convertedNum}</p> : <p className='text-xs text-center px-3'>Your output will appear here!</p>
                 }
             </div>
+            {
+                !isCopied ?
+                <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copy!</button> :
+                <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copied!</button>
+            }
         </div>
     )
 }
