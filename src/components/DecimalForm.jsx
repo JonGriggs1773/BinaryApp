@@ -25,7 +25,11 @@ const DecimalForm = () => {
 
     //! Finish copy to clipboard functionality
     const copyToClipboard = () => {
-
+        const textToCopy = convertedNum
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Successfully Copied!")
+        })
+        setIsCopied(true)
     }
 
     const submitHandler = (e) => {
@@ -40,6 +44,7 @@ const DecimalForm = () => {
             let binaryNum = convertDecimalToBinary(number)
             setConvertedNum(binaryNum)
             setNumber("")
+            setIsCopied(false)
         }
     }
 
@@ -60,10 +65,12 @@ const DecimalForm = () => {
                     convertedNum ? <p className='text-xl text-center px-3 break-words'>{convertedNum}</p> : <p className='text-xs text-center px-3'>Your output will appear here!</p>
                 }
             </div>
-            {
+            {   
+                convertedNum ?
                 !isCopied ?
                 <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copy!</button> :
-                <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copied!</button>
+                <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copied!</button> :
+                null
             }
         </div>
     )

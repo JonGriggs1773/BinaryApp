@@ -3,6 +3,7 @@ import { useState } from 'react'
 const BinaryForm = () => {
     const [number, setNumber] = useState("")
     const [errors, setErrors] = useState({})
+    const [isCopied, setIsCopied] = useState(false)
     const [convertedNum, setConvertedNum] = useState()
 
     const convertBinaryToDecimal = (num) => {
@@ -15,6 +16,14 @@ const BinaryForm = () => {
             start *= 2;
         }
         return decimal;
+    }
+
+    const copyToClipboard = () => {
+        const textToCopy = convertedNum
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert("Successfully Copied!")
+            setIsCopied(true)
+        })
     }
 
     const submitHandler = (e) => {
@@ -30,6 +39,7 @@ const BinaryForm = () => {
             let decimalNum = convertBinaryToDecimal(number)
             setConvertedNum(decimalNum)
             setNumber("")
+            setIsCopied(false)
         }
     }
 
@@ -50,6 +60,13 @@ const BinaryForm = () => {
                     convertedNum ? <p className='text-2xl text-center'>{convertedNum}</p> : <p className='text-xs'>Your output will appear here!</p>
                 }
             </div>
+            {   
+                convertedNum ?
+                !isCopied ?
+                <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copy!</button> :
+                <button onClick={copyToClipboard} className='w-[70px] h-[40px] text-xs text-center'>Copied!</button> :
+                null
+            }
         </div>
     )
 }
